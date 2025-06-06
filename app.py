@@ -142,16 +142,27 @@ with st.spinner("Setting up the brain of the app..."):
     df_tasks, faiss_index = load_and_process_task_data(DATA_FILE_PATH, initial_search_model)
 
 # User input for similarity threshold
-st.sidebar.header("How the App Matches Tasks")
+st.sidebar.header("Controls")
 selected_similarity_threshold = st.sidebar.slider(
-    "Minimum Match Strength (for initial search)",
+    "Minimum Match Strength",
     min_value=0.0,
     max_value=1.0,
     value=0.65, # Default value
     step=0.01,
-    help="Adjust how 'similar' a task needs to be to find a match in our database. Tasks below this strength will be categorized as 'Unmatched'."
+    help="Controls filtering. Tasks with a raw score below this value will be marked 'Unmatched'."
 )
-st.sidebar.info(f"Current minimum match strength: {selected_similarity_threshold:.2f}")
+
+st.sidebar.header("About the Dataset")
+st.sidebar.info(
+    """
+    The data in this application is based on research from the Anthropic Economic Index, 
+    which analyzed 1 million anonymized conversations from `Claude.ai` to understand real-world AI usage. 
+    The analysis involves breaking down how users interact with the AI, distinguishing between 
+    `augmentative` tasks (where humans collaborate with the model) and `automative` tasks 
+    (where the model completes a task with minimal human involvement).
+    """
+)
+
 
 default_job_tasks = """..."""
 
