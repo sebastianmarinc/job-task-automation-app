@@ -90,7 +90,7 @@ def analyze_single_task(query_task_text, df, initial_search_model, reranker_mode
             'original_task_input': query_task_text,
             'matched_task_name': 'No close match found',
             'initial_similarity': 0.0,
-            'similarity': 0.0,
+            'final_similarity': 0.0,
             'feedback_loop': 0.0, 'directive': 0.0, 'task_iteration': 0.0,
             'validation': 0.0, 'learning': 0.0, 'filtered': 0.0,
             'classification_type': 'Unmatched Task'
@@ -114,7 +114,7 @@ def analyze_single_task(query_task_text, df, initial_search_model, reranker_mode
         'original_task_input': query_task_text,
         'matched_task_name': matched_task_row['task_name'],
         'initial_similarity': filtered_cosine_similarities[sorted_candidate_indices_in_filtered[best_rerank_idx_in_candidates]],
-        'similarity': normalized_reranked_scores[best_rerank_idx_in_candidates],
+        'final_similarity': normalized_reranked_scores[best_rerank_idx_in_candidates],
         'feedback_loop': matched_task_row['feedback_loop'],
         'directive': matched_task_row['directive'],
         'task_iteration': matched_task_row['task_iteration'],
@@ -195,11 +195,11 @@ if st.button("Analyze My Job Tasks"):
             - **Potentially Sensitive Probability:** How much of the task might require significant human judgment.
             """)
             st.dataframe(results_df[[
-                'similarity', 'initial_similarity', 'original_task_input',
+                'final_similarity', 'initial_similarity', 'original_task_input',
                 'matched_task_name', 'feedback_loop', 'directive',
                 'task_iteration', 'validation', 'learning', 'filtered',
                 'classification_type'
-            ]].style.format({'similarity': "{:.4f}", 'initial_similarity': "{:.2f}"}))
+            ]].style.format({'initial_similarity': "{:.3f}",'final_similarity': "{:.3f}"}))
 
             st.subheader("Overall Job Summary:")
             
@@ -226,13 +226,13 @@ if st.button("Analyze My Job Tasks"):
                     percent_automatable_matched = percent_augmentable_matched = percent_potentially_sensitive_matched = 0
 
                 st.markdown("### Breakdown of *Matched* Tasks:")
-                st.markdown(f"**Potentially Automatable:** **{percent_automatable_matched:.2f}%**")
-                st.markdown(f"**Potentially Augmentable:** **{percent_augmentable_matched:.2f}%**")
-                st.markdown(f"**Potentially Sensitive:** **{percent_potentially_sensitive_matched:.2f}%**")
+                st.markdown(f"**Potentially Automatable:** **{percent_automatable_matched:.1f}%**")
+                st.markdown(f"**Potentially Augmentable:** **{percent_augmentable_matched:.1f}%**")
+                st.markdown(f"**Potentially Sensitive:** **{percent_potentially_sensitive_matched:.1f}%**")
 
             st.markdown("### Job Coverage & Unmatched Tasks:")
             percent_unmatched_of_total = (num_unmatched_tasks / total_input_tasks) * 100 if total_input_tasks > 0 else 0
-            st.markdown(f"**Percentage of Tasks Unmatched:** **{percent_unmatched_of_total:.2f}%**")
+            st.markdown(f"**Percentage of Tasks Unmatched:** **{percent_unmatched_of_total:.1f}%**")
             st.info("Unmatched tasks mean there isn't a similar task in our database based on the 'Minimum Match Strength'.")
 
         else:
