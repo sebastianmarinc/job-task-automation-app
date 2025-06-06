@@ -192,7 +192,7 @@ if st.button("Analyze My Job Tasks"):
             - **Task Iteration:** Collaborative refinement process.
             - **Learning:** Knowledge acquisition and understanding.
             - **Validation:** Work verification and improvement.
-            - **Potentially Sensitive:** Requires human judgment or is potentially too sensitive for third-party models.
+            - **Potentially Sensitive** (Filtered): Requires more human judgment or is potentially too sensitive for third-party models.
             """)
             # --- END UPDATED CONTENT BLOCK ---
             
@@ -227,9 +227,9 @@ if st.button("Analyze My Job Tasks"):
                     percent_automatable_matched = percent_augmentable_matched = percent_potentially_sensitive_matched = 0
 
                 st.markdown("### Breakdown of *Matched* Tasks:")
-                st.markdown(f"**Potentially Automatable:** **{percent_automatable_matched:.1f}%**")
-                st.markdown(f"**Potentially Augmentable:** **{percent_augmentable_matched:.1f}%**")
-                st.markdown(f"**Potentially Sensitive:** **{percent_potentially_sensitive_matched:.1f}%**")
+                st.markdown(f"**Potentially Automatable** (Feedback Loop, Directive): **{percent_automatable_matched:.1f}%**")
+                st.markdown(f"**Potentially Augmentable** (Task Iteration, Validation, Learning): **{percent_augmentable_matched:.1f}%**")
+                st.markdown(f"**Potentially Sensitive** (Filtered): **{percent_potentially_sensitive_matched:.1f}%**")
 
             st.markdown("### Job Coverage & Unmatched Tasks:")
             percent_unmatched_of_total = (num_unmatched_tasks / total_input_tasks) * 100 if total_input_tasks > 0 else 0
@@ -239,4 +239,4 @@ if st.button("Analyze My Job Tasks"):
     else:
         st.warning("No tasks were entered or processed. Please try again.")
 else:
-    st.warning("Please enter some job tasks to analyze.")
+    st.warning("Please enter job tasks to analyze.")
