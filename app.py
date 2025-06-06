@@ -155,7 +155,7 @@ st.sidebar.info(f"Current minimum match strength: {selected_similarity_threshold
 
 default_job_tasks = """..."""
 
-job_tasks_input = st.text_area("Job Tasks (one per line):", height=350,
+job_tasks_input = st.text_area("Job Tasks (one per line):", height=200,
                                         value=default_job_tasks)
 
 if st.button("Analyze My Job Tasks"):
