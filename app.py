@@ -158,12 +158,11 @@ Work closely with Product Management and Product Marketing peers to build a unif
 Serve as the primary thought leader for the products you support, engaging in speaking opportunities and content development
 Simplify product capabilities into clear, compelling messages and tools that resonate with customers
 Educate and inspire our Sales, GTM, and field marketing teams on the customer and business value of our products
-
 ...
 """
 
 job_tasks_input = st.text_area("Enter Job Tasks (one per line):", height=350,
-                                value=default_job_tasks)
+                                        value=default_job_tasks)
 
 if st.button("Analyze My Job Tasks"):
     if job_tasks_input:
@@ -186,14 +185,17 @@ if st.button("Analyze My Job Tasks"):
             results_df = pd.DataFrame(all_analysis_results)
 
             st.subheader("Individual Task Analysis:")
+            # --- UPDATED CONTENT BLOCK ---
             st.markdown("""
-            - **Similarity:** How closely the task matches a task in our database (0-1, 1 is a perfect match).
-            - **Initial Match Score:** The first quick score before detailed analysis.
-            - **Matched Task in Database:** The closest task we found in our dataset.
-            - **Automatable Probabilities (Feedback Loop, Directive):** How much of the task involves clear, rule-based steps.
-            - **Augmentable Probabilities (Task Iteration, Validation, Learning):** How much of the task can be enhanced by machines helping humans.
-            - **Potentially Sensitive Probability:** How much of the task might require significant human judgment.
+            - **Directive:** Complete task delegation with minimal interaction.
+            - **Feedback Loop:** Task completion guided by environmental feedback.
+            - **Task Iteration:** Collaborative refinement process.
+            - **Learning:** Knowledge acquisition and understanding.
+            - **Validation:** Work verification and improvement.
+            - **Potentially Sensitive:** Requires human judgment or is potentially too sensitive for third-party models.
             """)
+            # --- END UPDATED CONTENT BLOCK ---
+            
             st.dataframe(results_df[[
                 'classification_type','original_task_input','matched_task_name', 
                 'initial_similarity', 'final_similarity', 
@@ -234,7 +236,7 @@ if st.button("Analyze My Job Tasks"):
             st.markdown(f"**Percentage of Tasks Unmatched:** **{percent_unmatched_of_total:.1f}%**")
             st.info("Unmatched tasks mean there isn't a similar task in our database based on the 'Minimum Match Strength'.")
 
-        else:
-            st.warning("No tasks were entered or processed. Please try again.")
     else:
-        st.warning("Please enter some job tasks to analyze.")
+        st.warning("No tasks were entered or processed. Please try again.")
+else:
+    st.warning("Please enter some job tasks to analyze.")
