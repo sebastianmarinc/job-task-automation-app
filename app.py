@@ -156,7 +156,7 @@ selected_similarity_threshold = st.sidebar.slider(
     "Minimum Match Strength (for initial search)",
     min_value=0.0,
     max_value=1.0,
-    value=0.65, # Default value
+    value=0.75, # Default value
     step=0.01,
     help="Adjust how 'similar' a task needs to be to find a match in our database. Tasks below this strength will be categorized as 'Unmatched'."
 )
