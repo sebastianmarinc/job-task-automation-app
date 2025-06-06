@@ -16,7 +16,7 @@ RERANK_CANDIDATES = 10 # Number of top candidates to send to the Re-ranker
 def load_initial_search_model():
     """Loads the model for initial quick search (finds many possible matches)."""
     # Using embeddings model for initial retrieval
-    return SentenceTransformer('sentence-transformers/paraphrase-mpnet-base-v2')
+    return SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
 
 @st.cache_resource # Cache the re-ranker model
 def load_reranker_model():
