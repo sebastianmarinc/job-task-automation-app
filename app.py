@@ -15,14 +15,14 @@ RERANK_CANDIDATES = 10 # Number of top candidates to send to the Re-ranker
 @st.cache_resource # Cache the initial search model
 def load_initial_search_model():
     """Loads the model for initial quick search (finds many possible matches)."""
-    # Using Snowflake Arctic Embed for initial retrieval
-    return SentenceTransformer('Snowflake/snowflake-arctic-embed-l-v2.0')
+    # Using embeddings model for initial retrieval
+    return SentenceTransformer('BAAI/bge-small-en-v1.5')
 
 @st.cache_resource # Cache the re-ranker model
 def load_reranker_model():
     """Loads the specialized re-ranker model (refines the initial matches)."""
-    # Using BAAI BGE Re-ranker for re-ranking
-    return CrossEncoder('BAAI/bge-reranker-v2-m3')
+    # Using an embeddings model for re-ranking
+    return CrossEncoder('mixedbread-ai/mxbai-rerank-xsmall-v1')
 
 # --- Load Data and Process ---
 @st.cache_data # Cache data loading, embedding computation, and FAISS index creation
