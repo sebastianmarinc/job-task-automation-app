@@ -152,14 +152,14 @@ selected_similarity_threshold = st.sidebar.slider(
 )
 st.sidebar.info(f"Current minimum match strength: {selected_similarity_threshold:.2f}")
 
-default_job_tasks = """Develop narratives and materials that clearly communicate the value of our unified management solution and Digital Experience Management capabilities, translating technical features into compelling messages that resonate with customers
-Create impactful marketing content, including datasheets, whitepapers, blogs, and presentations
+default_job_tasks = """Create impactful marketing content, including datasheets, whitepapers, blogs, and presentations
 Define and implement GTM strategies for new launches and campaigns in collaboration with cross-functional marketing teams
 Work closely with Product Management and Product Marketing peers to build a unified market and product vision, developing value propositions and messaging that resonate with our target buyer personas and form the foundation for all product marketing activities
 Serve as the primary thought leader for the products you support, engaging in speaking opportunities and content development
 Simplify product capabilities into clear, compelling messages and tools that resonate with customers
 Educate and inspire our Sales, GTM, and field marketing teams on the customer and business value of our products
-...(other tasks)
+
+...
 """
 
 job_tasks_input = st.text_area("Enter Job Tasks (one per line):", height=350,
