@@ -195,10 +195,9 @@ if st.button("Analyze My Job Tasks"):
             - **Potentially Sensitive Probability:** How much of the task might require significant human judgment.
             """)
             st.dataframe(results_df[[
-                'final_similarity', 'initial_similarity', 'original_task_input',
-                'matched_task_name', 'feedback_loop', 'directive',
-                'task_iteration', 'validation', 'learning', 'filtered',
-                'classification_type'
+                'classification_type','original_task_input','matched_task_name', 
+                'initial_similarity', 'final_similarity', 
+                'feedback_loop', 'directive', 'task_iteration', 'validation', 'learning', 'filtered'
             ]].style.format({'initial_similarity': "{:.3f}",'final_similarity': "{:.3f}"}))
 
             st.subheader("Overall Job Summary:")
