@@ -130,6 +130,7 @@ st.title("Job Task Automation & Augmentation Estimator")
 
 st.markdown("""
 This app helps estimate how much of a job can be **automated** (done by machines) or **augmented** (machines helping humans).
+
 Just enter a list of job tasks, and the app will try to find similar tasks from our database and calculate their potential for automation and augmentation.
 """)
 
@@ -161,7 +162,7 @@ Educate and inspire our Sales, GTM, and field marketing teams on the customer an
 ...
 """
 
-job_tasks_input = st.text_area("Enter Job Tasks (one per line):", height=350,
+job_tasks_input = st.text_area("Job Tasks (one per line):", height=350,
                                         value=default_job_tasks)
 
 if st.button("Analyze My Job Tasks"):
@@ -187,11 +188,14 @@ if st.button("Analyze My Job Tasks"):
             st.subheader("Individual Task Analysis:")
             # --- UPDATED CONTENT BLOCK ---
             st.markdown("""
+	    Automated Tasks
             - **Directive:** Complete task delegation with minimal interaction.
             - **Feedback Loop:** Task completion guided by environmental feedback.
+	    Augmented Tasks
             - **Task Iteration:** Collaborative refinement process.
             - **Learning:** Knowledge acquisition and understanding.
             - **Validation:** Work verification and improvement.
+	    Other
             - **Potentially Sensitive** (Filtered): Requires more human judgment or is potentially too sensitive for third-party models.
             """)
             # --- END UPDATED CONTENT BLOCK ---
