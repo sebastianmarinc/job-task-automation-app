@@ -152,9 +152,10 @@ selected_similarity_threshold = st.sidebar.slider(
     help="Controls filtering. Tasks with a raw score below this value will be marked 'Unmatched'."
 )
 
-st.sidebar.header("About the Dataset")
 st.sidebar.info(
     """
+**About the Dataset**
+
     The data in this application is based on research from the Anthropic Economic Index, 
     which analyzed 1 million anonymized conversations from `Claude.ai` to understand real-world AI usage. 
     The analysis involves breaking down how users interact with the AI, distinguishing between 
