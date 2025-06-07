@@ -152,17 +152,10 @@ selected_similarity_threshold = st.sidebar.slider(
     help="Controls filtering. Tasks with a raw score below this value will be marked 'Unmatched'."
 )
 
-st.sidebar.info(
-    """
+st.sidebar.info("""
 **About the Dataset**
-
-    The data in this application is based on research from the Anthropic Economic Index, 
-    which analyzed 1 million anonymized conversations from `Claude.ai` to understand real-world AI usage. 
-    The analysis involves breaking down how users interact with the AI, distinguishing between 
-    `augmentative` tasks (where humans collaborate with the model) and `automative` tasks 
-    (where the model completes a task with minimal human involvement).
-    """
-)
+The data in this application is based on research from the Anthropic Economic Index, which analyzed 1 million anonymized conversations from Claude to understand real-world AI usage. The analysis involves breaking down how users interact with the AI, distinguishing between "augmentative" tasks (where humans collaborate with the model) and "automative" tasks where the model completes a task with minimal human involvement).
+""")
 
 
 default_job_tasks = """..."""
