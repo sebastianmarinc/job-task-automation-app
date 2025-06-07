@@ -35,14 +35,11 @@ def load_precomputed_data_and_faiss_index(df_path, faiss_index_path):
             st.warning("If these files are missing, you need to run 'prepare_data.py' locally first to generate them and commit them to your repository.")
             st.stop()
 
-        st.write("Loading pre-computed task data and FAISS index... (Fast startup!)")
         df = pd.read_parquet(df_path) # Load from Parquet
         # Parquet typically handles NumPy arrays in columns correctly, so explicit conversion might not be needed
         # df['embedding'] = df['embedding'].apply(lambda x: np.array(x) if isinstance(x, list) else x) # Keep if needed for older pyarrow
 
         faiss_index = faiss.read_index(faiss_index_path)
-        st.write(f"Pre-computed data and FAISS index loaded with {faiss_index.ntotal} tasks.")
-
         return df, faiss_index
 
     except Exception as e:
@@ -146,16 +143,7 @@ The data in this app is based on research from the Anthropic Economic Index, whi
 
 """)
 
-default_job_tasks = """Develop narratives and materials that clearly communicate the value of our unified management solution and Digital Experience Management capabilities, translating technical features into compelling messages that resonate with customers
-Create impactful marketing content, including datasheets, whitepapers, blogs, and presentations
-Define and implement GTM strategies for new launches and campaigns in collaboration with cross-functional marketing teams
-Contribute to our vision for how the AI-powered Strata Network Security Platform is essential in securing customers' networks, both at internal and external events
-Your Impact
-Work closely with Product Management and Product Marketing peers to build a unified market and product vision, developing value propositions and messaging that resonate with our target buyer personas and form the foundation for all product marketing activities
-Serve as the primary thought leader for the products you support, engaging in speaking opportunities and content development
-Simplify product capabilities into clear, compelling messages and tools that resonate with customers
-Create powerful marketing content, including datasheets, whitepapers, blogs, and presentations
-Educate and inspire our Sales, GTM, and field marketing teams on the customer and business value of our products
+default_job_tasks = """...
 """
 
 job_tasks_input = st.text_area("Job Tasks (one per line):", height=200,
