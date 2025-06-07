@@ -112,7 +112,7 @@ st.set_page_config(layout="wide")
 st.title("Job Task Automation & Augmentation Estimator")
 
 st.markdown("""
-This app helps estimate how much of a job can be **automated** (done by machines) or **augmented** (machines helping humans).
+This app helps estimate how much of a job can be **automated** (done by AI) or **augmented** (AI helping humans).
 
 Just enter a list of job tasks, and the app will try to find similar tasks from our database and calculate their potential for automation and augmentation.
 """)
@@ -171,11 +171,11 @@ if st.button("Analyze My Job Tasks"):
 
             st.subheader("Individual Task Analysis:")
             st.markdown("""
-            **Automatable Tasks**
+            **Automatable Tasks** (done by AI)
             - **Directive:** Complete task delegation with minimal interaction.
             - **Feedback Loop:** Task completion guided by environmental feedback.
 
-            **Augmentable Tasks**
+            **Augmentable Tasks** (AI helping humans)
             - **Task Iteration:** Collaborative refinement process.
             - **Learning:** Knowledge acquisition and understanding.
             - **Validation:** Work verification and improvement.
