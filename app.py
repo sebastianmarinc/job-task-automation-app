@@ -16,7 +16,7 @@ RERANK_CANDIDATES = 10 # Number of top candidates to send to the Re-ranker
 @st.cache_resource # Cache the initial search model
 def load_initial_search_model():
     """Loads the model for initial quick search (finds many possible matches)."""
-    return SentenceTransformer('BAAI/bge-small-en-v1.5')
+    return SentenceTransformer('BAAI/bge-base-en-v1.5')
 
 @st.cache_resource # Cache the re-ranker model
 def load_reranker_model():
@@ -32,7 +32,6 @@ def load_precomputed_data_and_faiss_index(df_path, faiss_index_path):
     try:
         if not os.path.exists(df_path) or not os.path.exists(faiss_index_path):
             st.error(f"Pre-computed data files not found. Please ensure the 'data/' folder with '{os.path.basename(df_path)}' and '{os.path.basename(faiss_index_path)}' exists in your repository.")
-            st.warning("If these files are missing, you need to run 'prepare_data.py' locally first to generate them and commit them to your repository.")
             st.stop()
 
         df = pd.read_parquet(df_path) # Load from Parquet
@@ -43,7 +42,7 @@ def load_precomputed_data_and_faiss_index(df_path, faiss_index_path):
         return df, faiss_index
 
     except Exception as e:
-        st.error(f"An error occurred while loading pre-computed data: {e}. Please ensure 'prepare_data.py' was run successfully and the generated files are correct.")
+        st.error(f"An error occurred while loading pre-computed data: {e}.")
         st.stop()
 
 # --- Task Matching and Analysis Function ---
