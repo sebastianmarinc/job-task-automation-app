@@ -155,7 +155,7 @@ selected_similarity_threshold = st.sidebar.slider(
 st.sidebar.info("""
 **About the Dataset**
 
-The data in this app is based on research from the Anthropic Economic Index, which analyzed 1 million anonymized conversations from Claude to understand real-world AI usage. The analysis involves breaking down how users interact with the AI, distinguishing between "augmentative" tasks (where humans collaborate with the model) and "automative" tasks where the model completes a task with minimal human involvement).
+The data in this app is based on research from the Anthropic Economic Index, which analyzed 1 million anonymized conversations from Claude to understand real-world AI usage. The analysis involves breaking down how users interact with the AI, distinguishing between "augmentable" tasks (where humans collaborate with the model) and "automatable" tasks where the model completes a task with minimal human involvement).
 
 """)
 
@@ -188,15 +188,21 @@ if st.button("Analyze My Job Tasks"):
             st.subheader("Individual Task Analysis:")
             # --- UPDATED CONTENT BLOCK ---
             st.markdown("""
-	    Automated Tasks
+	    **Automatable Tasks**
+
             - **Directive:** Complete task delegation with minimal interaction.
             - **Feedback Loop:** Task completion guided by environmental feedback.
-	    Augmented Tasks
+
+	    **Augmentable Tasks**
+
             - **Task Iteration:** Collaborative refinement process.
             - **Learning:** Knowledge acquisition and understanding.
             - **Validation:** Work verification and improvement.
-	    Other
+
+	    **Other**
+
             - **Potentially Sensitive** (Filtered): Requires more human judgment or is potentially too sensitive for third-party models.
+
             """)
             # --- END UPDATED CONTENT BLOCK ---
             
