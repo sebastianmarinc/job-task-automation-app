@@ -4,11 +4,11 @@ from sentence_transformers import SentenceTransformer, CrossEncoder
 import numpy as np
 import faiss
 from scipy.special import expit # Import the sigmoid function
-import os # For path manipulation
+import os 
 
 # --- Configuration ---
 # Paths for loading pre-computed data
-PRECOMPUTED_DF_PATH = 'data/precomputed_df_with_embeddings.parquet' # Changed to .parquet
+PRECOMPUTED_DF_PATH = 'data/precomputed_df_with_embeddings.parquet' 
 PRECOMPUTED_FAISS_INDEX_PATH = 'data/precomputed_faiss_index.bin'
 RERANK_CANDIDATES = 10 # Number of top candidates to send to the Re-ranker
 
