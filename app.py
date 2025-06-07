@@ -191,7 +191,6 @@ if st.button("Analyze My Job Tasks"):
 	    **Automatable Tasks**
 
 - **Directive:** Complete task delegation with minimal interaction.
-            
 - **Feedback Loop:** Task completion guided by environmental feedback.
 
 **Augmentable Tasks**
