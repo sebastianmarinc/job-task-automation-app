@@ -3,13 +3,12 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer, CrossEncoder
 import numpy as np
 import faiss
-import pickle # For loading pickled DataFrame
 from scipy.special import expit # Import the sigmoid function
 import os # For path manipulation
 
 # --- Configuration ---
 # Paths for loading pre-computed data
-PRECOMPUTED_DF_PATH = 'data/precomputed_df_with_embeddings.pkl'
+PRECOMPUTED_DF_PATH = 'data/precomputed_df_with_embeddings.parquet' # Changed to .parquet
 PRECOMPUTED_FAISS_INDEX_PATH = 'data/precomputed_faiss_index.bin'
 RERANK_CANDIDATES = 10 # Number of top candidates to send to the Re-ranker
 
@@ -32,14 +31,14 @@ def load_precomputed_data_and_faiss_index(df_path, faiss_index_path):
     """
     try:
         if not os.path.exists(df_path) or not os.path.exists(faiss_index_path):
-            st.error(f"Pre-computed data files not found. Please run 'prepare_data.py' first.")
+            st.error(f"Pre-computed data files not found. Please ensure the 'data/' folder with '{os.path.basename(df_path)}' and '{os.path.basename(faiss_index_path)}' exists in your repository.")
+            st.warning("If these files are missing, you need to run 'prepare_data.py' locally first to generate them and commit them to your repository.")
             st.stop()
 
         st.write("Loading pre-computed task data and FAISS index... (Fast startup!)")
-        with open(df_path, 'rb') as f:
-            df = pickle.load(f)
-        # Ensure embeddings are numpy arrays if they got converted to lists during pickling
-        df['embedding'] = df['embedding'].apply(lambda x: np.array(x) if isinstance(x, list) else x)
+        df = pd.read_parquet(df_path) # Load from Parquet
+        # Parquet typically handles NumPy arrays in columns correctly, so explicit conversion might not be needed
+        # df['embedding'] = df['embedding'].apply(lambda x: np.array(x) if isinstance(x, list) else x) # Keep if needed for older pyarrow
 
         faiss_index = faiss.read_index(faiss_index_path)
         st.write(f"Pre-computed data and FAISS index loaded with {faiss_index.ntotal} tasks.")
@@ -47,7 +46,7 @@ def load_precomputed_data_and_faiss_index(df_path, faiss_index_path):
         return df, faiss_index
 
     except Exception as e:
-        st.error(f"An error occurred while loading pre-computed data: {e}. Please ensure 'prepare_data.py' was run successfully.")
+        st.error(f"An error occurred while loading pre-computed data: {e}. Please ensure 'prepare_data.py' was run successfully and the generated files are correct.")
         st.stop()
 
 # --- Task Matching and Analysis Function ---
