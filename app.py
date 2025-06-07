@@ -195,15 +195,14 @@ if st.button("Analyze My Job Tasks"):
 
 **Augmentable Tasks**
 
-            - **Task Iteration:** Collaborative refinement process.
-            - **Learning:** Knowledge acquisition and understanding.
-            - **Validation:** Work verification and improvement.
+- **Task Iteration:** Collaborative refinement process.
+- **Learning:** Knowledge acquisition and understanding.
+- **Validation:** Work verification and improvement.
 
-	    **Other**
+**Other**
 
-            - **Potentially Sensitive** (Filtered): Requires more human judgment or is potentially too sensitive for third-party models.
-
-            """)
+- **Potentially Sensitive** (Filtered): Requires more human judgment or is potentially too sensitive for third-party models.
+""")
             # --- END UPDATED CONTENT BLOCK ---
             
             st.dataframe(results_df[[
