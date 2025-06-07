@@ -190,10 +190,11 @@ if st.button("Analyze My Job Tasks"):
             st.markdown("""
 	    **Automatable Tasks**
 
-            - **Directive:** Complete task delegation with minimal interaction.
-            - **Feedback Loop:** Task completion guided by environmental feedback.
+- **Directive:** Complete task delegation with minimal interaction.
+            
+- **Feedback Loop:** Task completion guided by environmental feedback.
 
-	    **Augmentable Tasks**
+**Augmentable Tasks**
 
             - **Task Iteration:** Collaborative refinement process.
             - **Learning:** Knowledge acquisition and understanding.
