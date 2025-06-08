@@ -144,7 +144,7 @@ selected_similarity_threshold = st.sidebar.slider(
 st.sidebar.info("""
 **About the Dataset**
 
-The data in this app is based on research from the Anthropic Economic Index, which analyzed 1 million anonymized conversations from Claude to understand real-world AI usage. The analysis involves breaking down how users interact with the AI, distinguishing between "augmentable" tasks (where humans collaborate with the model) and "automatable" tasks where the model completes a task with minimal human involvement).
+The data in this app is based on [research from Anthropic of economic tasks](https://www.anthropic.com/news/anthropic-economic-index-insights-from-claude-sonnet-3-7), which analyzed 1 million anonymized conversations from Claude to understand real-world AI usage. The analysis involves breaking down how users interact with the AI, distinguishing between "augmentable" tasks, where humans collaborate with the model, and "automatable" tasks, where the model completes a task with minimal human involvement.
 
 """)
 
