@@ -136,7 +136,7 @@ selected_similarity_threshold = st.sidebar.slider(
     "Minimum Match Strength",
     min_value=0.0,
     max_value=1.0,
-    value=0.6, # Default value
+    value=0.555, # Default value
     step=0.001, format="%0.3f",
     help="Controls filtering. Tasks with a raw score below this value will be marked 'Unmatched'."
 )
