@@ -22,7 +22,7 @@ def load_initial_search_model():
 @st.cache_resource # Cache the re-ranker model
 def load_reranker_model():
     """Loads the specialized re-ranker model (refines the initial matches)."""
-    return CrossEncoder('BAAI/bge-reranker-large')
+    return CrossEncoder('mixedbread-ai/mxbai-rerank-base-v2')
 
 # --- Load Pre-computed Data and FAISS Index ---
 @st.cache_data # Cache the loaded data and index
