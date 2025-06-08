@@ -4,11 +4,12 @@ from sentence_transformers import SentenceTransformer, CrossEncoder
 import numpy as np
 import faiss
 from scipy.special import expit # Import the sigmoid function
-import os 
+import os
+import string # Import string module for punctuation
 
 # --- Configuration ---
 # Paths for loading pre-computed data
-PRECOMPUTED_DF_PATH = 'data/precomputed_df_with_embeddings.parquet' 
+PRECOMPUTED_DF_PATH = 'data/precomputed_df_with_embeddings.parquet'
 PRECOMPUTED_FAISS_INDEX_PATH = 'data/precomputed_faiss_index.bin'
 RERANK_CANDIDATES = 10 # Number of top candidates to send to the Re-ranker
 
@@ -16,12 +17,12 @@ RERANK_CANDIDATES = 10 # Number of top candidates to send to the Re-ranker
 @st.cache_resource # Cache the initial search model
 def load_initial_search_model():
     """Loads the model for initial quick search (finds many possible matches)."""
-    return SentenceTransformer('BAAI/bge-base-en-v1.5')
+    return SentenceTransformer('BAAI/bge-large-en-v1.5')
 
 @st.cache_resource # Cache the re-ranker model
 def load_reranker_model():
     """Loads the specialized re-ranker model (refines the initial matches)."""
-    return CrossEncoder('mixedbread-ai/mxbai-rerank-xsmall-v1')
+    return CrossEncoder('BAAI/bge-reranker-large')
 
 # --- Load Pre-computed Data and FAISS Index ---
 @st.cache_data # Cache the loaded data and index
@@ -35,9 +36,6 @@ def load_precomputed_data_and_faiss_index(df_path, faiss_index_path):
             st.stop()
 
         df = pd.read_parquet(df_path) # Load from Parquet
-        # Parquet typically handles NumPy arrays in columns correctly, so explicit conversion might not be needed
-        # df['embedding'] = df['embedding'].apply(lambda x: np.array(x) if isinstance(x, list) else x) # Keep if needed for older pyarrow
-
         faiss_index = faiss.read_index(faiss_index_path)
         return df, faiss_index
 
@@ -51,15 +49,22 @@ def analyze_single_task(query_task_text, df, initial_search_model, reranker_mode
     Analyzes a single job task to find the closest match and its characteristics.
     Uses a two-stage process: fast initial search with FAISS, then refined re-ranking.
     """
+    # --- NEW: Clean the query text ---
+    # Convert to lowercase
+    cleaned_query_task_text = query_task_text.lower()
+    # Remove punctuation
+    cleaned_query_task_text = cleaned_query_task_text.translate(str.maketrans('', '', string.punctuation))
+    # --- END NEW ---
+
     # Add the recommended instruction to the query before encoding for BGE models.
-    query_with_instruction = "Represent this sentence for searching relevant passages: " + query_task_text
+    # Use cleaned_query_task_text for encoding
+    query_with_instruction = "Represent this sentence for searching relevant passages: " + cleaned_query_task_text
     query_embedding = initial_search_model.encode(query_with_instruction).astype('float32').reshape(1, -1)
 
     # Normalize query embedding for IP index (cosine similarity)
     faiss.normalize_L2(query_embedding)
 
     k_candidates_for_faiss = max(RERANK_CANDIDATES, 20)
-    # Search FAISS index. distances will be IP scores, faiss_indices are the row indices in the original matrix.
     initial_scores, faiss_indices = faiss_index.search(query_embedding, k_candidates_for_faiss)
     initial_scores = initial_scores[0] # Get scores for the first (and only) query
 
@@ -69,7 +74,7 @@ def analyze_single_task(query_task_text, df, initial_search_model, reranker_mode
 
     if len(filtered_faiss_indices) == 0:
         return {
-            'original_task_input': query_task_text,
+            'original_task_input': query_task_text, # Keep original input
             'matched_task_name': 'No close match found',
             'initial_similarity': 0.0,
             'final_similarity': 0.0,
@@ -83,7 +88,8 @@ def analyze_single_task(query_task_text, df, initial_search_model, reranker_mode
     sorted_df_indices_for_reranking = filtered_faiss_indices[sorted_candidate_indices_in_filtered]
 
     candidate_texts = df.iloc[sorted_df_indices_for_reranking]['task_name'].tolist()
-    sentence_pairs = [[query_task_text, candidate_text] for candidate_text in candidate_texts]
+    # Use cleaned_query_task_text for re-ranking pairs
+    sentence_pairs = [[cleaned_query_task_text, candidate_text] for candidate_text in candidate_texts]
 
     raw_reranked_scores = reranker_model.predict(sentence_pairs)
     normalized_reranked_scores = expit(raw_reranked_scores)
@@ -93,7 +99,7 @@ def analyze_single_task(query_task_text, df, initial_search_model, reranker_mode
     matched_task_row = df.iloc[final_best_match_df_idx]
 
     return {
-        'original_task_input': query_task_text,
+        'original_task_input': query_task_text, # Keep original input
         'matched_task_name': matched_task_row['task_name'],
         'initial_similarity': filtered_initial_scores[sorted_candidate_indices_in_filtered[best_rerank_idx_in_candidates]],
         'final_similarity': normalized_reranked_scores[best_rerank_idx_in_candidates],
@@ -142,7 +148,16 @@ The data in this app is based on research from the Anthropic Economic Index, whi
 
 """)
 
-default_job_tasks = """...
+default_job_tasks = """Develop narratives and materials that clearly communicate the value of our unified management solution and Digital Experience Management capabilities, translating technical features into compelling messages that resonate with customers
+Create impactful marketing content, including datasheets, whitepapers, blogs, and presentations
+Define and implement GTM strategies for new launches and campaigns in collaboration with cross-functional marketing teams
+Contribute to our vision for how the AI-powered Strata Network Security Platform is essential in securing customers' networks, both at internal and external events
+Your Impact
+Work closely with Product Management and Product Marketing peers to build a unified market and product vision, developing value propositions and messaging that resonate with our target buyer personas and form the foundation for all product marketing activities
+Serve as the primary thought leader for the products you support, engaging in speaking opportunities and content development
+Simplify product capabilities into clear, compelling messages and tools that resonate with customers
+Create powerful marketing content, including datasheets, whitepapers, blogs, and presentations
+Educate and inspire our Sales, GTM, and field marketing teams on the customer and business value of our products
 """
 
 job_tasks_input = st.text_area("Job Tasks (one per line):", height=200,
